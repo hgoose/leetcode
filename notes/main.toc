@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Key insights}{2}{section.0.1}%
+\contentsline {subsection}{\numberline {1.1}Complexity}{2}{subsection.0.1.1}%
+\contentsline {subsection}{\numberline {1.2}Bitwise operations}{3}{subsection.0.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}XOR}{3}{subsubsection.0.1.2.1}%
+\contentsline {section}{\numberline {2}Arrays and hashing}{4}{section.0.2}%
+\contentsline {subsection}{\numberline {2.1}Contains duplicates}{4}{subsection.0.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}O(nlg n) time O(n) space Solution}{4}{subsubsection.0.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}O(n) time O(n) space}{4}{subsubsection.0.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}Anagram}{5}{subsection.0.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}O(nlg n + mlg m) time O(1) space}{5}{subsubsection.0.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}O(n) time O(1) space}{5}{subsubsection.0.2.2.2}%
+\contentsline {section}{\numberline {3}Two Sum}{7}{section.0.3}%
+\contentsline {subsection}{\numberline {3.1}$O(n^{2})$ time $O(1)$ space}{7}{subsection.0.3.1}%
+\contentsline {subsection}{\numberline {3.2}O(n) time O(1) space}{7}{subsection.0.3.2}%
+\contentsline {subsection}{\numberline {3.3}Grouped anagrams}{8}{subsection.0.3.3}%
+\contentsline {subsection}{\numberline {3.4}$O(n \cdot k\lg k)$ time $O(n\cdot k)$ space}{8}{subsection.0.3.4}%
