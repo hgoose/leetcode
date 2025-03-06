@@ -13,8 +13,6 @@
 #include <tuple>
 #include <unordered_set>
 #include <algorithm>
-#include <stack>
-using std::stack;
 using std::unordered_set;
 using std::tuple;
 using std::map;
@@ -46,39 +44,27 @@ using lims = std::numeric_limits<T>;
 
 class Solution {
 public:
-    std::stack<
-    vector<string> generateParenthesis(int n) {
-        vector<char> chars{'(', ')', '[', ']', '{', '}'};
-        vector<string> res{};
-        string curr{};
-        int k = n * n;
-        _bt(res, chars, curr, k);
-        return res;
+    vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
+        int b = grid.size() * grid.size();        
+        vector<int> v(b,0);
 
-    }
-private:
-    void validate(string& curr) {
-    }
-    void _bt(vector<string>& res, vector<char>& v, string& curr, int k) {
-        if (curr.size() == k) {
-            res.push_back(curr);
-            return;
+        int dup{};
+        int missing = (b * (b+1)) / 2;
+        for (int i=0; i<(int)grid.size(); ++i) {
+            for (int j=0;j<(int)grid[0].size();++j) {
+                ++v[grid[i][j]]; 
+                if (v[grid[i][j]]) {
+                    dup = grid[i][j];
+                } else {
+                    missing-=grid[i][j];
+                }
+            }
         }
-
-        for (int i=0; i<(int)v.size(); ++i) {
-            curr.push_back(v[i]);
-            _bt(res, v, curr, k);
-            curr.pop_back();
-        }
+        return {dup, missing};
     }
 };
 
 int main(int argc, char** argv) {
-    Solution s;
-    vector<string> res = s.generateParenthesis(3);
-    for (const auto& item: res) {
-        cout << item << endl;
-    }
 
     return 0;
 }
