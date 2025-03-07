@@ -46,30 +46,34 @@ using lims = std::numeric_limits<T>;
 
 class Solution {
 public:
-    std::stack<
     vector<string> generateParenthesis(int n) {
-        vector<char> chars{'(', ')', '[', ']', '{', '}'};
+        vector<char> chars{'(', ')'};
         vector<string> res{};
         string curr{};
-        int k = n * n;
-        _bt(res, chars, curr, k);
+        int k = n * 2;
+        _bt(res, chars, curr, k, 0, 0);
         return res;
 
     }
-private:
-    void validate(string& curr) {
-    }
-    void _bt(vector<string>& res, vector<char>& v, string& curr, int k) {
+public:
+    bool _bt(vector<string>& res, vector<char>& v, string& curr, int k, int open, int close) {
         if (curr.size() == k) {
             res.push_back(curr);
-            return;
+            return true;
         }
 
         for (int i=0; i<(int)v.size(); ++i) {
-            curr.push_back(v[i]);
-            _bt(res, v, curr, k);
-            curr.pop_back();
+            if ((v[i] == '(' && open < k/2) || (v[i] == ')' && (close < open)) ) {
+                curr.push_back(v[i]);
+                if (v[i] == '(') ++open;
+                else ++close;
+                _bt(res, v, curr, k, open, close);
+                curr.pop_back();
+                if (v[i] == '(') --open;
+                else --close;
+            } 
         }
+        return true;
     }
 };
 
