@@ -10,6 +10,7 @@
 #include <array>
 #include <map>
 #include <limits>
+#include <climits> // INT_MAX, INT_MIN, ...
 #include <tuple>
 #include <unordered_set>
 #include <algorithm>
@@ -44,18 +45,8 @@ using lims = std::numeric_limits<T>;
 
 class Solution {
 public:
-    vector<int> dailyTemperatures(vector<int>& temperatures) {
-        stack<int> mack;        
-        vector<int> res(temperatures.size(), 0);
-
-        for (int i=0; i<(int)temperatures.size(); ++i) {
-            while (mack.size() && temperatures[i] > temperatures[mack.top()]) {
-                res[mack.top()] = i-mack.top();
-                mack.pop();
-            }
-            mack.push(i);
-        }
-        return res;
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        
     }
 };
 
