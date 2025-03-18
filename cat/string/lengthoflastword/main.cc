@@ -45,19 +45,13 @@ using lims = std::numeric_limits<T>;
 template<typename T, typename U>
 using pmap = unordered_map<T,U>;
 
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
-
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    int lengthOfLastWord(string s) {
+        int len=0, start=s.size()-1;
+        while (s[start]==' ') {--start;}
+        for (int i=start; i>=0, s[i] != ' '; --i, ++len);
+        return len;
     }
 };
 

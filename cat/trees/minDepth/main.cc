@@ -56,8 +56,13 @@ struct TreeNode {
 
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    int minDepth(TreeNode* root) {
+        if (!root) return 0;
+
+        int ld = 1 + minDepth(root->left);
+        int rd = 1 + minDepth(root->right);
+
+        return std::min(ld, rd);
     }
 };
 

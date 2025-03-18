@@ -54,14 +54,59 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+// ts (TreeNode*)
+typedef TreeNode* ts;
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    bool isSubtree(ts root, ts subRoot) {
+        if (!root) return false;
+
+        bool left = isSubtree(root->left, subRoot);
+        bool right = isSubtree(root->right, subRoot);
+
+        if (left || right) return true;
+
+        bool check = _solve(root, subRoot);
+
+        if (check) return true;
+        return false;
+    }
+private:
+    bool _solve(ts p, ts q) {
+        if (!p && !q) return true;
+        if (!p || !q) return false;
+
+        bool curr = false;
+        if (p->val == q->val)  {
+            curr = true;
+        }
+
+        bool left = _solve(p->left, q->left);
+        bool right = _solve(p->right, q->right);
+
+        return (curr && left && right);
     }
 };
 
 int main(int argc, char** argv) {
+    ts root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+
+    root->left->left = new TreeNode(4);
+    root->right->left = new TreeNode(5);
+
+    ts root2 = new TreeNode(1);
+    root2->left = new TreeNode(2);
+    root2->right = new TreeNode(3);
+
+    root2->left->left = new TreeNode(4);
+    root2->right->left = new TreeNode(5);
+
+
+    Solution s;
+    cout << std::boolalpha << s.isSubtree(root, root2);
+
 
     return 0;
 }

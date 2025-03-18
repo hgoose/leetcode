@@ -56,8 +56,24 @@ struct TreeNode {
 
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    bool isBalanced(TreeNode* root) {
+        // Empty tree is vacuously balanced i think
+        if (!root) return true;
+        bool good = true;
+        depth(root, good);
+        return good ? good : !good;
+    }
+
+private: 
+    int depth(TreeNode* root, bool& good) {
+        if (!root) return 0;
+
+        int ld = depth(root->left, good);
+        int rd = depth(root->right, good);
+
+        if (abs(ld - rd) > 1) good = false;
+
+        return 1 + std::max(ld, rd);
     }
 };
 

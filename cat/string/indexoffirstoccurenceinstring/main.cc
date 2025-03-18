@@ -45,23 +45,27 @@ using lims = std::numeric_limits<T>;
 template<typename T, typename U>
 using pmap = unordered_map<T,U>;
 
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
-
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    int strStr(string haystack, string needle) {
+        if (needle.size() > haystack.size()) return -1;
+        int left = 0, right = needle.size()-1;        
+        string substr = haystack.substr(left, right-left+1);
+        if (substr == needle) return left;
+
+        while (right < haystack.size()-1) {
+            ++left, ++right;
+            substr = haystack.substr(left, right-left+1);
+
+            if (substr == needle) return left;
+        }
+
+        return -1;
     }
 };
 
 int main(int argc, char** argv) {
+    Solution s;
 
     return 0;
 }

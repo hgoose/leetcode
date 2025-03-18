@@ -16,3 +16,11 @@
     1. House robber IV 
     2. Median of two sorted arrays
     3. Minimum time to repair cars
+
+-- Trees
+    1. Diameter (Try without reference parameter)
+    2. Balanced tree (try without reference parameter)
+    3. Subtree of another tree (get O(n + m) instead of O(n * m))
+
+-- Strs
+    1. Find the Index of the First Occurrence in a String (O(n))

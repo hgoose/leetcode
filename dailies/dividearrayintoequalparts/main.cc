@@ -45,19 +45,21 @@ using lims = std::numeric_limits<T>;
 template<typename T, typename U>
 using pmap = unordered_map<T,U>;
 
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
+const int N=501;
 
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    bool divideArray(vector<int>& nums) {
+        bitset<N+1> bs;
+        bs.set();
+
+        int tt = nums.size()+1, t=0;
+        while (--tt) {
+            bs[nums[t]] = !bs[nums[t]];
+            ++t;
+        }
+
+        return bs.all();
     }
 };
 

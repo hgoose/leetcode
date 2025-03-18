@@ -56,8 +56,15 @@ struct TreeNode {
 
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if (!p && !q) return true;
+        if (!p || !q) return false; 
+
+        bool left = isSameTree(p->left, q->left);
+        bool right = isSameTree(p->right, q->right);
+
+        return (left && right && p->val == q->val);
+
     }
 };
 

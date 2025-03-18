@@ -56,12 +56,38 @@ struct TreeNode {
 
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    int diameterOfBinaryTree(TreeNode* root) {
+        if (!root) return 0;
+        int max = 0;
+        depth(root, max);
+        return max;
+    }
+// private:
+    int depth(TreeNode* p, int& max) {
+        if (!p) return 0;
+
+        int ld = depth(p->left, max);
+        int rd = depth(p->right, max);
+
+        max = std::max(max, ld + rd);
+        cout << "Max: " << max << endl;
+
+        return 1 + std::max(ld, rd);
     }
 };
 
 int main(int argc, char** argv) {
+    TreeNode* root = new TreeNode;
+    root->left = new TreeNode;
+    root->left->left = new TreeNode;
+    root->left->right = new TreeNode;
+    root->right = new TreeNode;
+    root->right->left = new TreeNode;
+
+    Solution s;
+    int max = 0;
+    cout << s.depth(root, max) << endl;
+    cout << max << endl;
 
     return 0;
 }

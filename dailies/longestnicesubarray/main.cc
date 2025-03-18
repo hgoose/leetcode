@@ -45,23 +45,29 @@ using lims = std::numeric_limits<T>;
 template<typename T, typename U>
 using pmap = unordered_map<T,U>;
 
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
-
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        return root ? std::max(1+maxDepth(root->left), 1+maxDepth(root->right)) : 0;
+    int longestNiceSubarray(vector<int>& nums) {
+        int n = nums.size();
+        int l = 0, used = 0, max=1;
+        for (int r=0; r<n; ++r) {
+            while ((used & nums[r]) != 0) {
+                used^=nums[l++];
+            }
+            used|=nums[r];
+            max = std::max(max,r-l+1);
+        }
+        return max;
     }
 };
 
 int main(int argc, char** argv) {
+    Solution s;
+    // vector<int> v{1,3,8,48,10};
+    // 65552,50331652,1,1048576,16384,544,270532608,151813349
+    vector<int> v{84139415,693324769,614626365,497710833,615598711,264,65552,50331652,1,1048576,16384,544,270532608,151813349,221976871,678178917,845710321,751376227,331656525,739558112,267703680};
+    cout << s.longestNiceSubarray(v) << '\n';
+
 
     return 0;
 }
