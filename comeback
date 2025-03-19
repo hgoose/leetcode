@@ -21,6 +21,7 @@
     1. Diameter (Try without reference parameter)
     2. Balanced tree (try without reference parameter)
     3. Subtree of another tree (get O(n + m) instead of O(n * m))
+    4. LCA binary tree / bst 
 
 -- Strs
     1. Find the Index of the First Occurrence in a String (O(n))

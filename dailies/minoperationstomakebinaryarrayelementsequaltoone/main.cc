@@ -45,50 +45,32 @@ using lims = std::numeric_limits<T>;
 template<typename T, typename U>
 using pmap = unordered_map<T,U>;
 
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
-
-typedef TreeNode* ts;
 class Solution {
 public:
-    ts lowestCommonAncestor(ts root, ts p, ts q) {
-        ts lowest = nullptr;
-        _solve(root,p,q, lowest);
-        return lowest;
+    int minOperations(vector<int>& nums) {
+        if (check(nums)) return 0;
+
+        int ops{};
+        for (int i=0; i<(int)nums.size()-2; ++i) {
+            if (nums[i] == 0) {
+                for (int j=i; j<i+3 && j<(int)nums.size(); ++j) {
+                    nums[j] = !nums[j];
+                }
+                ++ops;
+            }
+        }
+        return check(nums) ? ops : -1;
     }
 private:
-    void _solve(ts root, ts p, ts q, ts& lowest) {
-        if (!root) return; 
-
-        bool locate_p = locate(root,p);
-        bool locate_q = locate(root,q);
-
-        if (locate_p && locate_q) lowest = root;
-
-        _solve(root->left, p,q, lowest);
-        _solve(root->right, p,q, lowest);
-
-    }
-    bool locate(ts root, ts p) {
-        if (!root || !p) return false;
-
-        if (root == p) return true;
-
-        if (p->val < root->val) return locate(root->left, p);
-        else return locate(root->right, p);
+    bool check(vector<int>& nums) {
+        for (int i=0; i<(int)nums.size(); ++i) {
+            if (nums[i] != 1) return false;
+        }
+        return true;
     }
 };
 
-
-
 int main(int argc, char** argv) {
-
-
-
 
     return 0;
 }

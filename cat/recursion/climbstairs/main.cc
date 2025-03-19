@@ -45,50 +45,33 @@ using lims = std::numeric_limits<T>;
 template<typename T, typename U>
 using pmap = unordered_map<T,U>;
 
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
+const int N = 45;
 
-typedef TreeNode* ts;
 class Solution {
 public:
-    ts lowestCommonAncestor(ts root, ts p, ts q) {
-        ts lowest = nullptr;
-        _solve(root,p,q, lowest);
-        return lowest;
+    int memo[N+1];
+
+    Solution() {
+        std::fill(memo, memo + (N+1), 0);
+        memo[1] = 1;
+        memo[2] = 2;
     }
-private:
-    void _solve(ts root, ts p, ts q, ts& lowest) {
-        if (!root) return; 
 
-        bool locate_p = locate(root,p);
-        bool locate_q = locate(root,q);
+    int climbStairs(int n) {
+        if (n==1)return memo[1];
+        if (n==2) return memo[2];
 
-        if (locate_p && locate_q) lowest = root;
+        if (memo[n-1] && memo[n-2]) {
+            return memo[n-1] + memo[n-2];
+        }
+        memo[n-1] = climbStairs(n-1);
+        memo[n-2] = climbStairs(n-2);
 
-        _solve(root->left, p,q, lowest);
-        _solve(root->right, p,q, lowest);
-
-    }
-    bool locate(ts root, ts p) {
-        if (!root || !p) return false;
-
-        if (root == p) return true;
-
-        if (p->val < root->val) return locate(root->left, p);
-        else return locate(root->right, p);
+        return memo[n-1] + memo[n-2];
     }
 };
 
-
-
 int main(int argc, char** argv) {
-
-
-
 
     return 0;
 }

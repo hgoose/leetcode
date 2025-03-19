@@ -49,46 +49,19 @@ struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-typedef TreeNode* ts;
 class Solution {
 public:
-    ts lowestCommonAncestor(ts root, ts p, ts q) {
-        ts lowest = nullptr;
-        _solve(root,p,q, lowest);
-        return lowest;
-    }
-private:
-    void _solve(ts root, ts p, ts q, ts& lowest) {
-        if (!root) return; 
-
-        bool locate_p = locate(root,p);
-        bool locate_q = locate(root,q);
-
-        if (locate_p && locate_q) lowest = root;
-
-        _solve(root->left, p,q, lowest);
-        _solve(root->right, p,q, lowest);
-
-    }
-    bool locate(ts root, ts p) {
-        if (!root || !p) return false;
-
-        if (root == p) return true;
-
-        if (p->val < root->val) return locate(root->left, p);
-        else return locate(root->right, p);
+    vector<int> rightSideView(TreeNode* root) {
+                
     }
 };
 
-
-
 int main(int argc, char** argv) {
-
-
-
 
     return 0;
 }
