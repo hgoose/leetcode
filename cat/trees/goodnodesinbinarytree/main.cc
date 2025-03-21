@@ -56,42 +56,8 @@ struct TreeNode {
 
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        if (!root) return {};
-        queue<TreeNode*> q;
-        q.push(root);
-        q.push(nullptr);
-        vector<int> res;
-        vector<int> curr;
-
-        bool last = false;
-        while (q.size()) {
-            TreeNode* top = q.front();
-            q.pop();
-
-            if (top) {
-                curr.push_back(top->val);
-                last = false;
-                if (top->left) {
-                    q.push(top->left);
-                }
-                if (top->right) {
-                    q.push(top->right);
-                } 
-            } else {
-
-                if (last) {
-                    break;
-                }
-                res.push_back(curr[curr.size()-1]);
-                curr.clear();
-
-                last = true;
-                q.push(nullptr);
-            }
-
-        }
-        return res;
+    int goodNodes(TreeNode* root) {
+        
     }
 };
 
