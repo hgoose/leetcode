@@ -22,6 +22,7 @@
     2. Balanced tree (try without reference parameter)
     3. Subtree of another tree (get O(n + m) instead of O(n * m))
     4. LCA binary tree / bst 
+    5. LCA of deepest leaves
 
 -- Strs
     1. Find the Index of the First Occurrence in a String (O(n))
@@ -31,3 +32,6 @@
 
 -- Linked lists
     1. Copy list with random pointers
+
+-- Math
+    1. Sum of all subset xor totals
