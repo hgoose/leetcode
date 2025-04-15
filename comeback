@@ -42,3 +42,6 @@
 -- Math/comb/bt
     1. Find the count of good integers
 
+-- Segment tree or binary indexed trees (fenwick trees)
+    1. Count good triplets in an array
+
