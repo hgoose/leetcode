@@ -8,17 +8,24 @@
 -- Other:
     1. Shortest common prefix (Dived and conquer / or binary search methods)
 
+-- Prefix sums
+
 -- Two pointers:
     1. Remove duplicates I and II
     2. Remove element
 
 -- Sliding Window:
     1. Count the number of good subarrays
+    2. Count Complete Subarrays in an Array
 
 -- Binary search
     1. House robber IV 
     2. Median of two sorted arrays
     3. Minimum time to repair cars
+    4. Count the number of fair pairs
+
+-- Greedy
+    1. Rabbits in forest
 
 -- Trees
     1. Diameter (Try without reference parameter)
@@ -45,6 +52,9 @@
 
 -- Math/comb/bt
     1. Find the count of good integers
+
+-- DP/Combinatorics/number theory
+    1. Count the number of ideal arrays
 
 -- Segment tree or binary indexed trees (fenwick trees)
     1. Count good triplets in an array
