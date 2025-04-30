@@ -58,11 +58,32 @@ typedef TreeNode tn;
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int k) {
-        
+        int left = 0, right=0, max = *std::max_element(nums.begin(), nums.end());
+        int count = 0;
+        long long ret = 0;
+
+        while (right < nums.size()) {
+            if (nums[right++] == max) ++count;
+
+            while (count == k) {
+                if (nums[left] == max) {
+                    --count;
+                }
+                ++left;
+            }
+
+            ret+=left;
+        }
+
+        return ret;
     }
 };
 
 int main(int argc, char** argv) {
+    Solution s;
+    VI v{1,3,2,3,3};
+    int k = 2;
+    cout << s.countSubarrays(v,k);
 
     return 0;
 }
