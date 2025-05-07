@@ -11,6 +11,9 @@
 -- Prefix sums
     1. Count of interesting subarrays
 
+-- Counting
+    1. Number of equiv domino pairs
+
 -- Two pointers:
     1. Remove duplicates I and II
     2. Remove element
@@ -31,6 +34,7 @@
 
 -- Greedy
     1. Rabbits in forest
+    2. Minimum domino rotations for equal row
 
 -- Trees
     1. Diameter (Try without reference parameter)
