@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -36,6 +38,11 @@ typedef long long dword;
 template<typename T>
 using pset = unordered_set<T>;
 
+template<typename T, typename U, typename W=std::less<T>>
+using pq = priority_queue<T,U,W>;
+
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
 
 template<typename T>
 using lims = std::numeric_limits<T>;
@@ -51,46 +58,45 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-template<typename T, typename U, typename W=std::less<T>>
-using pq = priority_queue<T,U,W>;
-
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
+#define mod 1000000007
+class Solution {
 public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
-        for (auto& e : nums) {
-            stream.push(e);
+    int lengthAfterTransformations(string s, int t) {
+        vector<int> cfreq(26,0), nfreq(26,0);
+
+        for (int i=0; i<(int)s.size(); ++i) {
+            ++cfreq[s[i]-97];
         }
 
-        while (stream.size() > k) {
-            stream.pop();
+        while (t--) {
+            nfreq = vector<int>(26,0);
+            for (int i=0; i<26; ++i) {
+                if (i == 25) {
+                    nfreq[0] = cfreq[25];
+                    nfreq[1] = ((nfreq[1] % mod) + (cfreq[25] % mod)) % mod;
+                } else {
+                    nfreq[i+1] = cfreq[i];
+                }
+            }
+            cfreq = nfreq;
         }
+
+        int cnt = 0;
+        for (int i=0; i<26; ++i) {
+            cnt=((cnt % mod) + (cfreq[i] % mod)) % mod;
+        }
+        return cnt;
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
-private:
-    int k{};
-    I_MIN_HEAP stream;
 };
 
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
 
 int main(int argc, char** argv) {
+    Solution s;
+    string str = "abcyy";
+    int t = 2;
+
+    cout << s.lengthAfterTransformations(str, t);
+
 
     return 0;
 }

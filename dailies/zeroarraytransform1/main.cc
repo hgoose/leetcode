@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -36,6 +38,11 @@ typedef long long dword;
 template<typename T>
 using pset = unordered_set<T>;
 
+template<typename T, typename U, typename W=std::less<T>>
+using pq = priority_queue<T,U,W>;
+
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
 
 template<typename T>
 using lims = std::numeric_limits<T>;
@@ -51,44 +58,32 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-template<typename T, typename U, typename W=std::less<T>>
-using pq = priority_queue<T,U,W>;
-
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
+class Solution {
 public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
-        for (auto& e : nums) {
-            stream.push(e);
+    bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
+        vector<int> D{nums[0]};
+        for (int i=1; i<(int)nums.size(); ++i) {
+            D[i] = nums[i] - nums[i-1];
         }
-
-        while (stream.size() > k) {
-            stream.pop();
+        for (auto& q : queries) {
+            int l = q[0], r = q[1];
+            D[l]+=1;
+            if (r+1 < nums.size()) D[r+1]-=1;
         }
+        nums[0] = D[0];
+        for (int i=1; i<(int)D.size(); ++i) {
+            nums[i] = nums[i-1] + D[i];
+        }
+        return _check(nums);
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
 private:
-    int k{};
-    I_MIN_HEAP stream;
+    bool _check(vector<int>& v) {
+        for (auto& e : v) {
+            if (e>0) return false;
+        }
+        return true;
+    }
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
 
 int main(int argc, char** argv) {
 

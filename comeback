@@ -64,7 +64,17 @@
 
 -- DP/Combinatorics/number theory
     1. Count the number of ideal arrays
+    2. Longest unequal adjacent groups subsequence II
 
 -- Segment tree or binary indexed trees (fenwick trees)
     1. Count good triplets in an array
+
+-- Dijkstra / shortest path
+    1. Find minimum time to reach last room 1
+    2. Find minimum time to reach last room 2
+
+
+-- Hard DP 
+    1. Count Number of Balanced Permutations
+
 

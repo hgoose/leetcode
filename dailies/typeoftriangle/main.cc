@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -36,6 +38,11 @@ typedef long long dword;
 template<typename T>
 using pset = unordered_set<T>;
 
+template<typename T, typename U, typename W=std::less<T>>
+using pq = priority_queue<T,U,W>;
+
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
 
 template<typename T>
 using lims = std::numeric_limits<T>;
@@ -51,44 +58,39 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-template<typename T, typename U, typename W=std::less<T>>
-using pq = priority_queue<T,U,W>;
-
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
+class Solution {
 public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
+    string triangleType(vector<int>& nums) {
+        int a = nums[0], b = nums[1], c = nums[2];
+
+        if (!_TI(a,b,c)) return "none";
+
+        pmap<int,int> sides;
         for (auto& e : nums) {
-            stream.push(e);
+            ++sides[e];
         }
 
-        while (stream.size() > k) {
-            stream.pop();
+        int max = 0;
+        for (auto& [key, value] : sides) {
+            max = std::max(max, value);
         }
+
+        return [&]()->string{
+            if (max == 1) {
+                return "scalene";
+            } else if (max == 2) {
+                return "isosceles";
+            } else {
+                return "equilateral";
+            }
+        }();
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
 private:
-    int k{};
-    I_MIN_HEAP stream;
+    bool _TI(int a, int b, int c) {
+        if ((a + b <= c) || (a + c <= b) || (b+c <= a))  return false;
+        return true;
+    }
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
 
 int main(int argc, char** argv) {
 

@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -36,6 +38,11 @@ typedef long long dword;
 template<typename T>
 using pset = unordered_set<T>;
 
+template<typename T, typename U, typename W=std::less<T>>
+using pq = priority_queue<T,U,W>;
+
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
 
 template<typename T>
 using lims = std::numeric_limits<T>;
@@ -51,44 +58,25 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-template<typename T, typename U, typename W=std::less<T>>
-using pq = priority_queue<T,U,W>;
-
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
+class Solution {
 public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
-        for (auto& e : nums) {
-            stream.push(e);
-        }
+    void setZeroes(vector<vector<int>>& matrix) {
+        vector<vector<int>> other = matrix; 
 
-        while (stream.size() > k) {
-            stream.pop();
+        for (int i=0; i<(int)other.size(); ++i) {
+            for (int j=0; j<(int)other[0].size(); ++j) {
+                if (other[i][j] == 0) {
+                    for (int k=0; k<(int)matrix.size(); ++k) {
+                        matrix[k][j] = 0;
+                    }
+                    for (int k=0; k<(int)matrix[0].size(); ++k) {
+                        matrix[i][k] = 0;
+                    }
+                }
+            }
         }
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
-private:
-    int k{};
-    I_MIN_HEAP stream;
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
 
 int main(int argc, char** argv) {
 

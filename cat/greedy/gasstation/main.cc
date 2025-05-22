@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -36,6 +38,11 @@ typedef long long dword;
 template<typename T>
 using pset = unordered_set<T>;
 
+template<typename T, typename U, typename W=std::less<T>>
+using pq = priority_queue<T,U,W>;
+
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
 
 template<typename T>
 using lims = std::numeric_limits<T>;
@@ -51,44 +58,22 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-template<typename T, typename U, typename W=std::less<T>>
-using pq = priority_queue<T,U,W>;
-
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
+class Solution {
 public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
-        for (auto& e : nums) {
-            stream.push(e);
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        if (std::accumulate(gas.begin(), gas.end(),0) < std::accumulate(cost.begin(), cost.end(),0)) return -1;
+        int ret = 0;
+        int tank = 0;
+        for (int i=0; i<(int)gas.size(); ++i) {
+            tank+=gas[i]-cost[i];
+            if (tank < 0) {
+                tank = 0;
+                ret = i+1;
+            }
         }
-
-        while (stream.size() > k) {
-            stream.pop();
-        }
+        return ret;
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
-private:
-    int k{};
-    I_MIN_HEAP stream;
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
 
 int main(int argc, char** argv) {
 

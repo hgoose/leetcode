@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -36,6 +38,11 @@ typedef long long dword;
 template<typename T>
 using pset = unordered_set<T>;
 
+template<typename T, typename U, typename W=std::less<T>>
+using pq = priority_queue<T,U,W>;
+
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
 
 template<typename T>
 using lims = std::numeric_limits<T>;
@@ -51,46 +58,38 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-template<typename T, typename U, typename W=std::less<T>>
-using pq = priority_queue<T,U,W>;
-
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
+class Solution {
 public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
+    void sortColors(vector<int>& nums) {
+        vector<int> cnts(3,0);
+        vector<int> pfx(3,0);
+        vector<int> cpy = nums;
         for (auto& e : nums) {
-            stream.push(e);
+            ++cnts[e];
+        }
+        
+        pfx[0] = cnts[0];
+        for (int i=1; i<(int)cnts.size(); ++i) {
+            pfx[i] = pfx[i-1] + cnts[i];
         }
 
-        while (stream.size() > k) {
-            stream.pop();
+        for (int i=cpy.size()-1; i>=0; --i) {
+            int pos = pfx[cpy[i]]-1;
+            nums[pos] = cpy[i];
+            --pfx[cpy[i]];
         }
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
-private:
-    int k{};
-    I_MIN_HEAP stream;
 };
 
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
-
 int main(int argc, char** argv) {
+    Solution s;
+    vector<int> v{2,0,2,1,1,0};
+
+    s.sortColors(v);
+
+    for (auto& e : v) {
+        cout << e << " ";
+    }
 
     return 0;
 }

@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -36,6 +38,11 @@ typedef long long dword;
 template<typename T>
 using pset = unordered_set<T>;
 
+template<typename T, typename U, typename W=std::less<T>>
+using pq = priority_queue<T,U,W>;
+
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
 
 template<typename T>
 using lims = std::numeric_limits<T>;
@@ -51,44 +58,28 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-template<typename T, typename U, typename W=std::less<T>>
-using pq = priority_queue<T,U,W>;
-
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
+#define ll long long
+class Solution {
 public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
-        for (auto& e : nums) {
-            stream.push(e);
+    long long minSum(vector<int>& nums1, vector<int>& nums2) {
+        ll s1{},z1{},s2{},z2{};
+
+        for (auto& e : nums1) {
+            s1+=e;
+            if (!e) ++z1;
+        }
+        for (auto& e : nums2) {
+            s2+=e;
+            if (!e) ++z2;
         }
 
-        while (stream.size() > k) {
-            stream.pop();
+        if ((!z1 && s2 + z2 > s1) || (!z2 && s1 + z1 > s2)) {
+            return -1;
         }
+
+        return std::max(s1 + z1, s2 + z2);
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
-private:
-    int k{};
-    I_MIN_HEAP stream;
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
 
 int main(int argc, char** argv) {
 

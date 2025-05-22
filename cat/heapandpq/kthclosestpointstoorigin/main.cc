@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
+#include <ranges>
+using std::accumulate;
 using std::pair;
 using std::stack;
 using std::unordered_set;
@@ -37,6 +39,9 @@ template<typename T>
 using pset = unordered_set<T>;
 
 
+typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
+typedef priority_queue<int, vector<int>> I_MAX_HEAP;
+
 template<typename T>
 using lims = std::numeric_limits<T>;
 
@@ -53,42 +58,33 @@ typedef TreeNode tn;
 
 template<typename T, typename U, typename W=std::less<T>>
 using pq = priority_queue<T,U,W>;
+struct cless {
 
-typedef priority_queue<int, vector<int>> I_MAX_HEAP;
-
-typedef priority_queue<int, vector<int>, std::greater<int>> I_MIN_HEAP;
-class KthLargest {
-public:
-    KthLargest(int k, vector<int>& nums) : k(k) {
-        for (auto& e : nums) {
-            stream.push(e);
-        }
-
-        while (stream.size() > k) {
-            stream.pop();
-        }
+    bool operator()(pair<double,int> x, pair<double,int> y) {
+        return x.first > y.first;
     }
-    
-    int add(int val) {
-        stream.push(val);
-
-        if (stream.size() > k) {
-            stream.pop();
-        }
-
-        return stream.top();
-    }
-
-private:
-    int k{};
-    I_MIN_HEAP stream;
 };
 
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        vector<vector<int>> ret;
+        // I_MIN_HEAP heap;
+
+        pq<pair<double,int>, vector<pair<double,int>>, cless> heap;
+
+        for (int i=0; i<(int)points.size(); ++i) {
+            heap.push({sqrt(points[i][0] * points[i][0] + points[i][1] * points[i][1]), i});
+        }
+
+        int tt = k;
+        while (tt--) {
+            ret.push_back(points[heap.top().second]), heap.pop();
+        }
+        return ret;
+
+    }
+};
 
 int main(int argc, char** argv) {
 
