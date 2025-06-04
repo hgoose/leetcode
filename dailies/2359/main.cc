@@ -7,7 +7,6 @@
 #include <utility>
 #include <cmath>
 #include <bitset>
-#include <set>
 #include <array>
 #include <map>
 #include <limits>
@@ -59,58 +58,51 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-typedef std::unordered_map<int, std::unordered_set<int>> List;
-enum color : short {WHITE=0, GREY=1, BLACK=2};
 class Solution {
 public:
-    int largestPathValue(string colors, vector<vector<int>>& edges) {
-        List list;
-        for (auto& edge : edges) {
-            list[edge[0]].insert(edge[1]);
-        }
+    int closestMeetingNode(vector<int>& edges, int node1, int node2) {
+        if (node1 == node2) return node1;
+        vector<int> dist1(edges.size(), -1), dist2(edges.size(), -1);
+        vector<bool> visited1(edges.size(), 0), visited2(edges.size(),0);
+        // dist1[node1] = 0, dist2[node2] = 0;
+        _dfs(edges, node1, dist1,0, visited1);
+        _dfs(edges, node2, dist2,0, visited2);
 
-        vector<int> cnt(26,0);
-        vector<color> visited(colors.size(), WHITE);
-
-        for (auto& [node, _] : list) {
-            if (visited[node] == WHITE) {
-                if (!_dfs(list, visited, node, cnt, colors)) return -1;
+        int min = INT_MAX, ret = 0;
+        for (int i=0; i<(int)dist1.size(); ++i) {
+            if (dist1[i] != -1 && dist2[i] != -1) {
+                if (std::max(dist1[i], dist2[i]) < min) {
+                    min = std::max(dist1[i], dist2[i]);
+                    ret = i;
+                }
             }
         }
-
-        int max = 0;
-        for (int i=0; i<26; ++i) {
-            max = std::max(max, cnt[i]);
-        }
-
-        return max;
-         
+        return ret;
     }
 private:
-    bool _dfs(List& list, vector<color>& visited, int curr, vector<int>& cnt, const string& colors) {
-        visited[curr] = GREY;
-
-        for (auto& neighbor : list[curr]) {
-            if (visited[neighbor] == WHITE) {
-                if (!_dfs(list, visited, neighbor, cnt, colors)) return false;
-            } else if (visited[neighbor] == GREY) {
-                return false;
-            }
-        }
-
-        visited[curr] = BLACK;
-        ++cnt[colors[curr] - 'a'];
-        return true;
+    void _dfs(vector<int>& edges, int curr, vector<int>& dists, int dist, vector<bool>& visited) {
+        if (curr == -1) return;
+        if (visited[curr]) return;
+        visited[curr] = 1;
+        dists[curr] = dist;
+        _dfs(edges, edges[curr], dists, dist+1, visited);
     }
 };
 
 int main(int argc, char** argv) {
-
     Solution s;
-    vector<vector<int>> e = {{0,1}, {0,2}, {2,3}, {3,4}};
-    string colors = "abaca";
+    vector<int> v{2,2,3,-1};
+    int n1 = 0, n2 = 1;
+    vector<int> d1(v.size(),-1), d2(v.size(),-1);
+    s._dfs(v,n1,d1,0);
+    s._dfs(v,n2,d2,0);
 
-    cout << s.largestPathValue(colors, e);
+    for (auto& e : d1) cout << e << " ";
+    cout << endl << endl;
+
+    for (auto& e : d2) cout << e << " ";
+    cout << endl;
+
 
     return 0;
 }

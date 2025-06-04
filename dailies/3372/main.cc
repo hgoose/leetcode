@@ -7,7 +7,6 @@
 #include <utility>
 #include <cmath>
 #include <bitset>
-#include <set>
 #include <array>
 #include <map>
 #include <limits>
@@ -59,58 +58,55 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-typedef std::unordered_map<int, std::unordered_set<int>> List;
-enum color : short {WHITE=0, GREY=1, BLACK=2};
+typedef std::unordered_map<int, vector<int>> List;
 class Solution {
 public:
-    int largestPathValue(string colors, vector<vector<int>>& edges) {
-        List list;
-        for (auto& edge : edges) {
-            list[edge[0]].insert(edge[1]);
+    vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
+        List l1, l2;
+        vector<int> ret;
+
+        int n = 0;
+        for (auto& edge : edges1) {
+            n = std::max(n,edge[0]); n = std::max(n, edge[1]); ++n;
+            l1[edge[0]].push_back(edge[1]);
+            l1[edge[1]].push_back(edge[0]);
+        }
+        int m = 0;
+        for (auto& edge : edges2) {
+            m = std::max(m,edge[0]); m = std::max(n, edge[1]); ++m;
+            l2[edge[0]].push_back(edge[1]);
+            l2[edge[1]].push_back(edge[0]);
         }
 
-        vector<int> cnt(26,0);
-        vector<color> visited(colors.size(), WHITE);
+        for (auto& [node, _] : l1) {
+            vector<bool> visited(n,0);
+            int m1 = 0;
+            _dfs(l1, node, visited, 0, m1, k);
 
-        for (auto& [node, _] : list) {
-            if (visited[node] == WHITE) {
-                if (!_dfs(list, visited, node, cnt, colors)) return -1;
+            for (auto& [n, _] : l2) {
             }
         }
 
-        int max = 0;
-        for (int i=0; i<26; ++i) {
-            max = std::max(max, cnt[i]);
-        }
-
-        return max;
-         
+        return ret;
     }
 private:
-    bool _dfs(List& list, vector<color>& visited, int curr, vector<int>& cnt, const string& colors) {
-        visited[curr] = GREY;
-
-        for (auto& neighbor : list[curr]) {
-            if (visited[neighbor] == WHITE) {
-                if (!_dfs(list, visited, neighbor, cnt, colors)) return false;
-            } else if (visited[neighbor] == GREY) {
-                return false;
-            }
+    void _dfs(List& l, int curr, vector<bool>& visited, int edges, int& max, int k, bool le=true) {
+        visited[curr] = 1;
+        ++edges;
+        if (le) {
+            if (edges <= k) ++max;
+        } else {
+            if (edges < k) ++max;
         }
 
-        visited[curr] = BLACK;
-        ++cnt[colors[curr] - 'a'];
-        return true;
+        for (auto& neighbor : l[curr]) {
+            _dfs(l, neighbor, visited, edges+1, max, k, le); 
+        }
+
     }
 };
 
 int main(int argc, char** argv) {
-
-    Solution s;
-    vector<vector<int>> e = {{0,1}, {0,2}, {2,3}, {3,4}};
-    string colors = "abaca";
-
-    cout << s.largestPathValue(colors, e);
 
     return 0;
 }

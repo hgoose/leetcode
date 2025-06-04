@@ -7,7 +7,6 @@
 #include <utility>
 #include <cmath>
 #include <bitset>
-#include <set>
 #include <array>
 #include <map>
 #include <limits>
@@ -59,58 +58,26 @@ typedef ListNode ln;
 typedef TreeNode tn;
 #define PB push_back
 
-typedef std::unordered_map<int, std::unordered_set<int>> List;
-enum color : short {WHITE=0, GREY=1, BLACK=2};
 class Solution {
 public:
-    int largestPathValue(string colors, vector<vector<int>>& edges) {
-        List list;
-        for (auto& edge : edges) {
-            list[edge[0]].insert(edge[1]);
+    string answerString(string word, int numFriends) {
+        if (numFriends == 1) {
+            return word;
         }
-
-        vector<int> cnt(26,0);
-        vector<color> visited(colors.size(), WHITE);
-
-        for (auto& [node, _] : list) {
-            if (visited[node] == WHITE) {
-                if (!_dfs(list, visited, node, cnt, colors)) return -1;
-            }
+        int n = word.size();
+        string res;
+        for (int i = 0; i < n; i++) {
+            res = std::max(res, word.substr(i, std::min(n - numFriends + 1, n - i)));
         }
-
-        int max = 0;
-        for (int i=0; i<26; ++i) {
-            max = std::max(max, cnt[i]);
-        }
-
-        return max;
-         
-    }
-private:
-    bool _dfs(List& list, vector<color>& visited, int curr, vector<int>& cnt, const string& colors) {
-        visited[curr] = GREY;
-
-        for (auto& neighbor : list[curr]) {
-            if (visited[neighbor] == WHITE) {
-                if (!_dfs(list, visited, neighbor, cnt, colors)) return false;
-            } else if (visited[neighbor] == GREY) {
-                return false;
-            }
-        }
-
-        visited[curr] = BLACK;
-        ++cnt[colors[curr] - 'a'];
-        return true;
+        return res;
     }
 };
 
 int main(int argc, char** argv) {
-
     Solution s;
-    vector<vector<int>> e = {{0,1}, {0,2}, {2,3}, {3,4}};
-    string colors = "abaca";
-
-    cout << s.largestPathValue(colors, e);
+    string w = "gzzgg";
+    int n = 4;
+    cout << s.answerString(w,n);
 
     return 0;
 }
