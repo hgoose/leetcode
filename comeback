@@ -49,6 +49,7 @@
 
 -- Cupfind
     1. Linked list cycle (with DSU?)
+    2. 1061
 
 -- Linked lists
     1. Copy list with random pointers
@@ -76,5 +77,8 @@
 
 -- Hard DP 
     1. Count Number of Balanced Permutations
+
+-- Enumeration
+    1. 3445
 
 
