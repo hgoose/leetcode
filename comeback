@@ -69,6 +69,9 @@
     1. Count the number of ideal arrays
     2. Longest unequal adjacent groups subsequence II
 
+-- Combinatorics
+    1. 3405
+
 -- Segment tree or binary indexed trees (fenwick trees)
     1. Count good triplets in an array
 
@@ -82,5 +85,6 @@
 
 -- Enumeration
     1. 3445
+    2. 1432
 
 
