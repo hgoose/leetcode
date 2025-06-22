@@ -37,6 +37,8 @@
     1. Rabbits in forest
     2. Minimum domino rotations for equal row
     3. 2566
+    4. 2966
+    5. 2294
 
 -- Trees
     1. Diameter (Try without reference parameter)
@@ -48,6 +50,7 @@
 -- Strs
     1. Find the Index of the First Occurrence in a String (O(n))
     2. Count and say
+    3. 2138
 
 -- Cupfind
     1. Linked list cycle (with DSU?)
